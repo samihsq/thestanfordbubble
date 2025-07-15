@@ -34,6 +34,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/transition" element={<BubbleTransition />} />
           <Route path="/home" element={<MainPage />} />
+          {/* <Route path="/mainpage" element={<MainPage />} /> */}
         </Routes>
       </Router>
     </>

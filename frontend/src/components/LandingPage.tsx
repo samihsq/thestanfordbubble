@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import BubbleAnimation from "./BubbleAnimation";
+import BubbleAnimation, { ProductionBubble } from "./BubbleAnimation";
 
 const Container = styled.div`
   height: 100vh;
@@ -56,13 +56,21 @@ const Title = styled.h1`
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const [wobble, setWobble] = useState({ x: 0, y: 0 });
+  const bubbleRef = useRef<ProductionBubble | null>(null);
 
   const handleWobbleUpdate = useCallback((wobbleX: number, wobbleY: number) => {
     setWobble({ x: wobbleX, y: wobbleY });
   }, []);
 
-  const handleClick = () => {
-    navigate("/transition");
+  const handleLiftComplete = useCallback(() => {
+    navigate("/home");
+  }, [navigate]);
+
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (bubbleRef.current) {
+      bubbleRef.current.startLift(handleLiftComplete);
+    }
+    // No setTimeout here anymore, navigation is handled by onLiftComplete
   };
 
   return (
@@ -70,10 +78,14 @@ const LandingPage: React.FC = () => {
       <BubbleAnimation
         onClick={handleClick}
         onWobbleUpdate={handleWobbleUpdate}
+        bubbleRef={bubbleRef}
+        onLiftComplete={handleLiftComplete} // Pass the new prop
       >
         <Title
           style={{
-            transform: `translate(calc(-50% + ${wobble.x}px), calc(-50% + ${wobble.y}px))`,
+            transform: `translate(calc(-50% + ${
+              wobble.x * 0.05
+            }px), calc(-50% + ${wobble.y * 0.05}px))`,
           }}
         >
           welcome to the stanford bubble

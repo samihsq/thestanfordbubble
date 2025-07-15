@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FiMenu, FiSearch } from "react-icons/fi";
 import { motion } from "framer-motion";
+import ThinFilmBubble from "./ThinFilmBubble";
 
 const Container = styled(motion.div)`
   padding: 1rem 1.5rem;
@@ -36,22 +37,6 @@ const IconList = styled(motion.div)`
   gap: 1rem;
   justify-content: center;
   margin-bottom: 2rem;
-`;
-
-const CircleIcon = styled(motion.div)`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(252, 228, 236, 0.8) 40%,
-    rgba(227, 242, 253, 0.8) 100%
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
 `;
 
 const List = styled(motion.ul)`
@@ -98,13 +83,9 @@ const MainPage: React.FC = () => {
 
       <IconList variants={itemVariants}>
         {["A", "B", "C"].map((label) => (
-          <CircleIcon
-            key={label}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-          >
+          <ThinFilmBubble key={label} diameter={80}>
             {label}
-          </CircleIcon>
+          </ThinFilmBubble>
         ))}
       </IconList>
 
